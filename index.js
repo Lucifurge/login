@@ -4,14 +4,21 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 
-// In-memory user storage (use a database in production)
+// In-memory user storage (use a real database in production)
 const users = [];
 
 // Middleware
 app.use(bodyParser.json());
 app.use(cors({
     origin: 'https://luke-development-site.onrender.com', // Replace with your frontend domain
+    methods: ['GET', 'POST'], // Specify allowed HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Ensure headers are allowed
 }));
+
+// Health Check Route (optional, useful for debugging)
+app.get('/', (req, res) => {
+    res.send({ message: 'Server is running!' });
+});
 
 // Register Route
 app.post('/register', async (req, res) => {
